@@ -1,0 +1,15 @@
+{
+  "introduction": "Hej, välkommen till Ringa JS Application Template",
+  "header": {
+    "title": "Ringa JS Application Template",
+    "shortTitle": "Ringa JS"
+  },
+  "misc": {
+    "version": "Version",
+    "built": "Byggd"
+  },
+  "i18n": {
+    "en": "English",
+    "sv": "Swedish"
+  }
+}
