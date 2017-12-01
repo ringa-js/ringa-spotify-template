@@ -1,9 +1,6 @@
 import ENGLISH_LANGUAGE_PACK from './assets/i18n/en/pack.json';
 import SWEDISH_LANGUAGE_PACK from './assets/i18n/sv/pack.json';
 
-import EN_HOME_PAGE_CONTENT from './assets/i18n/en/home.md';
-import SV_HOME_PAGE_CONTENT from './assets/i18n/sv/home.md';
-
 const EN = 'en';
 const SV = 'sv';
 
@@ -20,9 +17,4 @@ export function setup(i18NModel) {
   // Language packs are a JSON file of multiple keys
   i18NModel.mergeLanguagePack(EN, ENGLISH_LANGUAGE_PACK);
   i18NModel.mergeLanguagePack(SV, SWEDISH_LANGUAGE_PACK);
-
-  // addLanguageKey adds a single key at a time. This is useful if our content for the page is larger
-  // than we would want in a single key in a JSON file.
-  i18NModel.addLanguageKey(EN, 'home.content', EN_HOME_PAGE_CONTENT);
-  i18NModel.addLanguageKey(SV, 'home.content', SV_HOME_PAGE_CONTENT);
 }

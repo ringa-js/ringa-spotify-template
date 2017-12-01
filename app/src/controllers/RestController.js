@@ -61,7 +61,7 @@ export default class RESTController extends Controller {
     let buildUrlParam = ($ringaEvent, url) => {
       let API_ROOT = $ringaEvent.detail.API_ROOT || this.options.API_ROOT;
 
-      $ringaEvent.detail.finalUrl = `${API_ROOT}${url}`;
+      $ringaEvent.detail.finalUrl = `${API_ROOT || ''}${url}`;
     };
 
     //------------------------------------
@@ -110,7 +110,7 @@ export default class RESTController extends Controller {
     ]);
 
     this.addListener('getApiRoot', $ringaEvent => {
-      $ringaEvent.detail.apiRoot = $ringaEvent.detail.API_ROOT || this.options.API_ROOT
+      $ringaEvent.detail.apiRoot = $ringaEvent.detail.API_ROOT || this.options.API_ROOT || ''
     });
   }
 
@@ -153,7 +153,6 @@ export default class RESTController extends Controller {
       let headers = props.$ringaEvent.detail.headers;
 
       let xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
       let url = props.url;
 
       if (props.body && props.body.serialize) {

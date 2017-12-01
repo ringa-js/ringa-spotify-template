@@ -1,15 +1,19 @@
 {
-  "introduction": "Hej, välkommen till Ringa JS Application Template",
   "header": {
-    "title": "Ringa JS Application Template",
-    "shortTitle": "Ringa JS"
+    "title": "Spotify i Ringa",
+    "shortTitle": "Spotify i Ringa"
   },
   "misc": {
     "version": "Version",
-    "built": "Byggd"
+    "built": "Byggd",
+    "connect": "Ansluta spotify-konto"
   },
   "i18n": {
     "en": "English",
     "sv": "Swedish"
+  },
+  "spotifyLoginCompleted": {
+    "main": "Spotify konto anslutet!",
+    "next": "Gå till din musik"
   }
 }

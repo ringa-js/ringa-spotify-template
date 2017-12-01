@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {RingaComponent, Button, I18NModel} from 'ringa-fw-react';
-import {dependency} from 'react-ringa';
 import SpotifyController from './controllers/SpotifyController';
+
+import {dependency} from 'react-ringa';
 
 export default class Home extends RingaComponent {
   //-----------------------------------
@@ -21,7 +22,7 @@ export default class Home extends RingaComponent {
     const {i18NModel} = this.state;
 
     return <div>
-      <Button label="Login" onClick={this.login_onClickHandler} />
+      <Button label={i18NModel.i18n('misc.connect')} onClick={this.login_onClickHandler} />
     </div>;
   }
 

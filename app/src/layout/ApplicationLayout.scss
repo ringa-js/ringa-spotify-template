@@ -22,7 +22,7 @@ body {
   background: white;
 
   .container {
-    width: calc(100%);
+    width: calc(100% - #{$pad3 * 2});
     height: calc(100% - 100px);
     position: relative;
     overflow: auto;

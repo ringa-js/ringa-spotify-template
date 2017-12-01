@@ -2,6 +2,8 @@ import React from 'react';
 import {RingaComponent, I18NModel, I18NSwitcher, ScreenModel} from 'ringa-fw-react';
 import {depend, dependency} from 'react-ringa';
 
+import SpotifyModel from '../models/SpotifyModel';
+
 import './Header.scss';
 
 class Header extends RingaComponent {
@@ -13,7 +15,8 @@ class Header extends RingaComponent {
 
     depend(this, [
       dependency(I18NModel, 'language'),
-      dependency(ScreenModel, 'curBreakpointIx')
+      dependency(ScreenModel, 'curBreakpointIx'),
+      dependency(SpotifyModel, 'profile')
     ]);
   }
 
@@ -21,7 +24,7 @@ class Header extends RingaComponent {
   // Lifecycle
   //-----------------------------------
   render(props) {
-    const {i18NModel, curBreakpointIx} = this.state;
+    const {i18NModel, curBreakpointIx, profile = {}} = this.state;
 
     return <header className="app-header">
       <div className="title">
@@ -29,7 +32,10 @@ class Header extends RingaComponent {
           {i18NModel.i18n(curBreakpointIx < 1 ? 'header.shortTitle' : 'header.title')}
         </span>
       </div>
-      <I18NSwitcher />
+      <div className="login">
+        {profile.display_name}
+        <I18NSwitcher />
+      </div>
     </header>;
   }
 }

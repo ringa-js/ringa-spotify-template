@@ -36,6 +36,12 @@
     }
   }
 
+  .login {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
   .i18n-switcher {
     margin-right: 40px;
   }
