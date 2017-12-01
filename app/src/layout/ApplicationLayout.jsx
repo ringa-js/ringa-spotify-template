@@ -5,15 +5,19 @@ import {setup as setupI18N} from '../i18n';
 import Header from './Header';
 import Footer from './Footer';
 
+import {withRouter} from 'react-router-dom';
+
 import AppController from '../controllers/AppController';
 import RestController from '../controllers/RestController';
 import SpotifyController from '../controllers/SpotifyController';
+
+import Player from '../components/screens/Player';
 
 import {DefaultApplicationRoot} from 'ringa-fw-react';
 
 import './ApplicationLayout.scss';
 
-export default class ApplicationLayout extends DefaultApplicationRoot {
+class ApplicationLayout extends DefaultApplicationRoot {
   //-----------------------------------
   // Constructor
   //-----------------------------------
@@ -27,7 +31,7 @@ export default class ApplicationLayout extends DefaultApplicationRoot {
 
     this.attach(new RestController());
     this.attach(new AppController());
-    this.attach(new SpotifyController());
+    this.attach(new SpotifyController(undefined, props.history));
   }
 
   //-----------------------------------
@@ -37,6 +41,7 @@ export default class ApplicationLayout extends DefaultApplicationRoot {
     return super.render(
       <div className="fill">
         <Header {...this.props} />
+        <Player/>
         <div className="container">
           {this.props.children}
         </div>
@@ -44,3 +49,5 @@ export default class ApplicationLayout extends DefaultApplicationRoot {
       </div>);
   }
 }
+
+export default withRouter(ApplicationLayout);

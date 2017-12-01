@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {RingaComponent, I18NModel, DataGrid, DataGridModel, TabNavigator, Tab} from 'ringa-fw-react';
+import {RingaComponent, I18NModel, DataGrid, DataGridModel, Button} from 'ringa-fw-react';
 import {dependency} from 'react-ringa';
 
 import SpotifyController from '../../controllers/SpotifyController';
@@ -13,7 +13,10 @@ export default class MusicList extends RingaComponent {
   constructor(props) {
     super(props);
 
-    this.depend(dependency(I18NModel, 'language'), dependency(SpotifyModel));
+    this.depend(
+      dependency(I18NModel, 'language'),
+      dependency(SpotifyModel, ['player', 'music'])
+    );
 
     this.setupGrid();
   }
@@ -22,28 +25,48 @@ export default class MusicList extends RingaComponent {
   // Lifecycle
   //-----------------------------------
   componentDispatchReady() {
+    const {spotifyModel} = this.props;
+
     super.componentDispatchReady();
 
-    this.dispatch(SpotifyController.GET_PLAYLISTS).then(spotifyModel => {
-      this.playListDataGridModel.items = spotifyModel.playlists;
+    this.props.history.listen(location => {
+      this.loadMusic();
     });
+
+    this.loadMusic();
   }
 
   render() {
-    const {i18NModel} = this.state;
+    const {i18NModel, player} = this.state;
+
+    if (!player) {
+      return <div></div>;
+    }
 
     return <div classes="fill">
-      <h1>{i18NModel.i18n('spotify.playlists')}</h1>
-      <DataGrid model={this.playListDataGridModel} classes="fill" />
+      <h1>{i18NModel.i18n('spotify.music')}</h1>
+      <DataGrid model={this.playerDataGridModel} classes="fill" />
     </div>;
   }
 
   //-----------------------------------
   // Methods
   //-----------------------------------
+  loadMusic() {
+    const {spotifyModel} = this.state;
+
+    spotifyModel.watchUntil(spotifyModel => spotifyModel.profile, () => {
+      this.dispatch(SpotifyController.GET_PLAYLIST_MUSIC, {
+        playlistId: this.props.match.params.playlistId
+      }).then(spotifyModel => {
+        this.playerDataGridModel.items = spotifyModel.music;
+      });
+    });
+  }
+
   setupGrid() {
     let settings = { // see DataGridModel
-      name: 'playlists',
+      name: 'music',
       classes: 'form-revisions-data-grid',
       row: { // 'row' field gets injected into the DataGridDimensionRow
         defaultRowHeightPx: 50,
@@ -52,29 +75,29 @@ export default class MusicList extends RingaComponent {
           autoFocusSearch: true
         },
         maxHeight: 'inherit',
-        onClick: this.playlists_rowOnClickHandler
+        onClick: this.music_rowOnClickHandler
       }
     };
 
     let columns = [{
-      field: 'name'
+      title: 'Song',
+      field: 'track.name'
     }, {
-      field: 'collaborative'
-    }, {
-      field: 'public'
+      title: 'Album',
+      field: 'track.album.name'
     }];
 
-    this.playListDataGridModel = DataGridModel.constructDefaultRowColumnModel(columns, undefined, settings);
+    this.playerDataGridModel = DataGridModel.constructDefaultRowColumnModel(columns, undefined, settings);
   }
 
   //-----------------------------------
   // Events
   //-----------------------------------
-  playlists_rowOnClickHandler(nodeContext) {
-    const {spotifyModel} = this.state;
-
-    spotifyModel.curPlaylistID = nodeContext.node.id;
-
-    this.props.history.push(`/music/playlist/${nodeContext.node.id}`);
+  music_rowOnClickHandler(nodeContext, event) {
+    this.dispatch(SpotifyController.PLAY, {
+      tracks: {
+        uris: [`${nodeContext.node.track.uri}`]
+      }
+    });
   }
 }

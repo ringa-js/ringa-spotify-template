@@ -15,5 +15,22 @@
   "spotifyLoginCompleted": {
     "main": "Spotify konto anslutet!",
     "next": "Gå till din musik"
+  },
+  "spotify": {
+    "on": "i",
+    "play": "Spela",
+    "pause": "Paus",
+    "playing": "Spelar",
+    "paused": "Pausad",
+    "playlists": "Spellistor",
+    "music": "Musik"
+  },
+  "ringa-fw": {
+    "playlists": {
+      "search": "Sök i dina spellistor..."
+    },
+    "music": {
+      "search": "Sök musik..."
+    }
   }
 }

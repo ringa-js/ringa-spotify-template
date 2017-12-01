@@ -17,6 +17,7 @@
     "next": "Goto your music"
   },
   "spotify": {
+    "on": "on",
     "play": "Play",
     "pause": "Pause",
     "playing": "Playing",

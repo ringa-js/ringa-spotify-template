@@ -4,16 +4,16 @@ import { Route } from 'react-router';
 import ApplicationLayout from './layout/ApplicationLayout';
 import Home from './Home';
 import SpotifyLoginCompleted from './components/screens/SpotifyLoginCompleted';
+import Playlist from './components/screens/Playlist';
 import MusicList from './components/screens/MusicList';
-import MusicPlayer from './components/screens/MusicPlayer';
 
 export default (
   <Route path="/">
     <ApplicationLayout>
       <Route path="/" exact component={Home} />
       <Route path="/spotify" component={SpotifyLoginCompleted} />
-      <Route path="/music" component={MusicList} />
-      <Route path="/music/playlist/:playlistId" component={MusicPlayer} />
+      <Route path="/music" component={Playlist} />
+      <Route path="/music/playlist/:playlistId" component={MusicList} />
     </ApplicationLayout>
   </Route>
 );

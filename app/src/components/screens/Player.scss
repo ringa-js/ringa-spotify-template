@@ -1,0 +1,17 @@
+@import '../../styles/variables';
+
+.player {
+  width: calc(100% - #{$pad3 * 2});
+  height: 40px;
+  background-color: $ringa-color-2;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 $pad3;
+
+  .song {
+    color: $ringa-color-text-2;
+  }
+}

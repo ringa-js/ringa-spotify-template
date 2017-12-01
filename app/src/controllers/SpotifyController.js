@@ -6,14 +6,29 @@ import RestController from './RestController';
 export const SPOTIFY_LOGIN_REJECTED = 0x01;
 
 export default class SpotifyController extends Controller {
-  constructor(props) {
-    super(props, undefined, {});
+  constructor(name, history) {
+    super(name, undefined, {});
 
-    this.addModel(new SpotifyModel());
+    this.history = history;
+
+    this.spotifyModel = this.addModel(new SpotifyModel());
+
+    /**
+     * Anytime a property changes we refresh the player state.
+     */
+    this.spotifyModel.watch((...args) => {
+      if (args[0] === 'player') return;
+
+      this.dispatch(SpotifyController.GET_PLAYER);
+    });
+
+    setInterval(() => {
+      this.dispatch(SpotifyController.GET_PLAYER);
+    }, 1000);
 
     let handle401Redirect = ($lastPromiseError, fail) => {
       if ($lastPromiseError && $lastPromiseError.status === 401) {
-        window.location.href = '/';
+        this.dispatch(SpotifyController.TRIGGER_CLIENT_SPOTIFY_LOGIN);
       } else if ($lastPromiseError) {
         fail($lastPromiseError, true);
       }
@@ -67,13 +82,19 @@ export default class SpotifyController extends Controller {
     /**
      * Get the users player information (are they playing, etc.)
      */
-    this.addListener('getPlayer', [event(RestController.GET, spotifyModel => ({
-      url: `${SPOTIFY_API}/me/player`,
-      headers: spotifyModel.headers
-    })),
+    this.addListener('getPlayer', [
+      (spotifyModel, fail) => {
+        if (spotifyModel.refreshing) fail(undefined, true);
+        spotifyModel.refreshing = true;
+      },
+      event(RestController.GET, spotifyModel => ({
+        url: `${SPOTIFY_API}/me/player`,
+        headers: spotifyModel.headers
+      })),
       handle401Redirect,
       (spotifyModel, $lastPromiseResult) => {
         spotifyModel.player = $lastPromiseResult;
+        spotifyModel.refreshing = false;
       }]);
 
     /**
@@ -107,6 +128,12 @@ export default class SpotifyController extends Controller {
   }
 
   busMounted() {
-    this.dispatch(SpotifyController.GET_USER_PROFILE);
+    if (!this.options.injections.spotifyModel.profile) {
+      this.dispatch(SpotifyController.GET_USER_PROFILE).then($lastPromiseError => {
+        if (!$lastPromiseError) {
+          this.history.push('/music');
+        }
+      })
+    }
   }
 }
