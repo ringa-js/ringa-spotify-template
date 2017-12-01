@@ -65,6 +65,18 @@ export default class SpotifyController extends Controller {
       })));
 
     /**
+     * Get the users player information (are they playing, etc.)
+     */
+    this.addListener('getPlayer', [event(RestController.GET, spotifyModel => ({
+      url: `${SPOTIFY_API}/me/player`,
+      headers: spotifyModel.headers
+    })),
+      handle401Redirect,
+      (spotifyModel, $lastPromiseResult) => {
+        spotifyModel.player = $lastPromiseResult;
+      }]);
+
+    /**
      * Start the client-only login process.
      */
     this.addListener('triggerClientSpotifyLogin', [($detail, spotifyModel) => {
@@ -92,5 +104,9 @@ export default class SpotifyController extends Controller {
       },
       SpotifyController.GET_USER_PROFILE
     ]);
+  }
+
+  busMounted() {
+    this.dispatch(SpotifyController.GET_USER_PROFILE);
   }
 }

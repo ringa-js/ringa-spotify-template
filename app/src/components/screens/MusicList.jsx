@@ -13,7 +13,7 @@ export default class MusicList extends RingaComponent {
   constructor(props) {
     super(props);
 
-    this.depend(dependency(I18NModel, 'language'));
+    this.depend(dependency(I18NModel, 'language'), dependency(SpotifyModel));
 
     this.setupGrid();
   }
@@ -33,6 +33,7 @@ export default class MusicList extends RingaComponent {
     const {i18NModel} = this.state;
 
     return <div classes="fill">
+      <h1>{i18NModel.i18n('spotify.playlists')}</h1>
       <DataGrid model={this.playListDataGridModel} classes="fill" />
     </div>;
   }
@@ -70,6 +71,10 @@ export default class MusicList extends RingaComponent {
   // Events
   //-----------------------------------
   playlists_rowOnClickHandler(nodeContext) {
+    const {spotifyModel} = this.state;
+
+    spotifyModel.curPlaylistID = nodeContext.node.id;
+
     this.props.history.push(`/music/playlist/${nodeContext.node.id}`);
   }
 }

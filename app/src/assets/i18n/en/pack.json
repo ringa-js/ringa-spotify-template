@@ -16,6 +16,14 @@
     "main": "Spotify account connected!",
     "next": "Goto your music"
   },
+  "spotify": {
+    "play": "Play",
+    "pause": "Pause",
+    "playing": "Playing",
+    "paused": "Paused",
+    "playlists": "Playlists",
+    "music": "Music"
+  },
   "ringa-fw": {
     "playlists": {
       "search": "Search your playlists..."
