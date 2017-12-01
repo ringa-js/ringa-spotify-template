@@ -30,8 +30,8 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "ringa": "^0.2.1",
-    "ringa-fw-core": "0.0.7",
-    "ringa-fw-react": "^0.3.3",
+    "ringa-fw-core": "^0.0.8",
+    "ringa-fw-react": "^0.3.4",
     "spotify-web-api-node": "^2.5.0",
     "tough-cookie": "^2.3.3",
     "trie-search": "^1.0.9"
