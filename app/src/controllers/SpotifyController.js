@@ -81,7 +81,7 @@ export default class SpotifyController extends Controller {
      */
     this.addListener('triggerClientSpotifyLogin', [($detail, spotifyModel) => {
         let redirect_uri = `http://${window.location.hostname}:8080/spotify`;
-        let url = $detail.url = `https://accounts.spotify.com/authorize?client_id=${SPOTIFY_CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(redirect_uri)}&scope=${encodeURIComponent(spotifyModel.scopes)}`;
+        let url = $detail.url = `https://accounts.spotify.com/authorize?client_id=${SPOTIFY_CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(SPOTIFY_REDIRECT_URI)}&scope=${encodeURIComponent(spotifyModel.scopes)}`;
 
         window.location.href = url;
       }]);

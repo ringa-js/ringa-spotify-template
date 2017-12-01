@@ -72,6 +72,7 @@ module.exports = new Promise(resolve => {
       __BUILD__: JSON.stringify(build),
       __BUILD_EPOCH__: new Date().getTime(),
       SPOTIFY_API: `'https://api.spotify.com/v1'`,
+      SPOTIFY_REDIRECT_URI: `'http://spotify.ringajs.com/spotify'`,
       SPOTIFY_CLIENT_ID: `'127e068ff068454a94a2dfcf217521f9'`,
       'process.env': {
         NODE_ENV: '"production"'
